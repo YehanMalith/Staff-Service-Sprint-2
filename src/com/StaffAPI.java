@@ -69,9 +69,9 @@ public class StaffAPI extends HttpServlet {
 		Map paras = getParasMap(request);
 		 String output = staffService.updateStaff(paras.get("hidStaffIDSave").toString(),
 		 paras.get("staffNic").toString(),
-		 paras.get("staffName").toString(),
+		 paras.get("staffName").toString().replace("+", " "),
 		 paras.get("staffMobileno").toString(),
-		 paras.get("staffEmail").toString(),
+		 paras.get("staffEmail").toString().replace("%40", "@"),
 		 paras.get("staffGender").toString(),
 		 paras.get("staffSpecialize").toString());
 		response.getWriter().write(output);

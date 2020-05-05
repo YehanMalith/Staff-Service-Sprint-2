@@ -8,6 +8,7 @@
 <meta charset="ISO-8859-1">
 <title>Staff Management</title>
 <link rel="stylesheet" href="Views/css/bootstrap.min.css">
+<link rel="stylesheet" href="Views/css/style.css">
 <script src="Components/jquery-3.2.1.min.js"></script>
 <script src="Components/staff.js"></script>
 </head>

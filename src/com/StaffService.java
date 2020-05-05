@@ -145,7 +145,7 @@ public class StaffService {
 			String query = "delete from staff where staffID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setInt(1, Integer.parseInt(staffID));
+			preparedStmt.setInt(1, Integer.parseInt(staffID.substring(1, staffID.length()-1)));
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
