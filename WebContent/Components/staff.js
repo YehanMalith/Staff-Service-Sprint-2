@@ -4,29 +4,29 @@ $(document).ready(function() {
 });
 
 // SAVE-------------
-$(document).on("click", "#btnSave", function(event) {
+$(document).on('click', '#btnSave', function(event) {
 	
 	// Clear alerts---------------------
-	 $("#alertSuccess").text("");
-	 $("#alertSuccess").hide();
-	 $("#alertError").text("");
-	 $("#alertError").hide();
+	 $('#alertSuccess').text('');
+	 $('#alertSuccess').hide();
+	 $('#alertError').text('');
+	 $('#alertError').hide();
 	 
 	// Form validation-------------------
 	 var status = validateStaffForm();
 	 if (status != true)
 	  {
-	  $("#alertError").text(status);
-	  $("#alertError").show();
+	  $('#alertError').text(status);
+	  $('#alertError').show();
 	  return;
 	  }
 	 
-	 var type = ($("#hidStaffIDSave").val() == "") ? "POST" : "PUT";
+	 var type = ($('#hidStaffIDSave').val() == "") ? "POST" : "PUT";
 	 
 	 $.ajax({
 			url : "StaffAPI",
 			type : type,
-			data : $("#formStaff").serialize(),
+			data : $('#formStaff').serialize(),
 			dataType : "text",
 			complete : function(response, status) {
 				onStaffSaveComplete(response.responseText, status);
@@ -38,35 +38,77 @@ function onStaffSaveComplete(response, status) {
 	if (status == "success") {
 		var resultSet = JSON.parse(response);
 		if (resultSet.status.trim() == "success") {
-			$("#alertSuccess").text("Successfully saved.");
-			$("#alertSuccess").show();
-			$("#divStaffGrid").html(resultSet.data);
+			$('#alertSuccess').text("Successfully saved.");
+			$('#alertSuccess').show();
+			$('#divStaffGrid').html(resultSet.data);
 		} else if (resultSet.status.trim() == "error") {
-			$("#alertError").text(resultSet.data);
-			$("#alertError").show();
+			$('#alertError').text(resultSet.data);
+			$('#alertError').show();
 		}
 	} else if (status == "error") {
-		$("#alertError").text("Error while saving.");
-		$("#alertError").show();
+		$('#alertError').text("Error while saving.");
+		$('#alertError').show();
 	} else {
-		$("#alertError").text("Unknown error while saving..");
-		$("#alertError").show();
+		$('#alertError').text("Unknown error while saving..");
+		$('#alertError').show();
 	}
-	$("#hidStaffIDSave").val("");
-	$("#formPatient")[0].reset();
+	$('#hidStaffIDSave').val("");
+	$('#formPatient')[0].reset();
 }
 
 //UPDATE==========================================
-$(document).on("click", ".btnUpdate", function(event)
+$(document).on('click', '.btnUpdate', function(event)
 {
- $("#hidStaffIDSave").val($(this).closest("tr").find('#hidStaffIDUpdate').val());
- $("#staffNic").val($(this).closest("tr").find('td:eq(0)').text());
- $("#staffName").val($(this).closest("tr").find('td:eq(1)').text());
- $("#staffMobileno").val($(this).closest("tr").find('td:eq(2)').text());
- $("#staffEmail").val($(this).closest("tr").find('td:eq(3)').text());
- $("#staffGender").val($(this).closest("tr").find('td:eq(4)').text());
- $("#staffSpecialize").val($(this).closest("tr").find('td:eq(5)').text());
+ $('#hidStaffIDSave').val($(this).closest('tr').find('#hidStaffIDUpdate').val());
+ $('#staffNic').val($(this).closest('tr').find('td:eq(0)').text());
+ $('#staffName').val($(this).closest('tr').find('td:eq(1)').text());
+ $('#staffMobileno').val($(this).closest('tr').find('td:eq(2)').text());
+ $('#staffEmail').val($(this).closest('tr').find('td:eq(3)').text());
+ $('#staffGender').val($(this).closest('tr').find('td:eq(4)').text());
+ $('#staffSpecialize').val($(this).closest('tr').find('td:eq(5)').text());
 });
+
+//DELETE==========================================
+$(document).on('click', '.btnRemove', function(event)
+		{
+		 $.ajax(
+		 {
+		 url : "StaffAPI",
+		 type : "DELETE",
+		 data : "staffID=" + $(this).data("staffID"),
+		 dataType : "text",
+		 complete : function(response, status)
+		 {
+		 onStaffDeleteComplete(response.responseText, status);
+		 }
+		 });
+		});
+
+function onStaffDeleteComplete(response, status)
+{
+if (status == "success")
+ {
+ var resultSet = JSON.parse(response);
+ if (resultSet.status.trim() == "success")
+ {
+ $("#alertSuccess").text("Successfully deleted.");
+ $("#alertSuccess").show();
+ $("#divStaffGrid").html(resultSet.data);
+ } else if (resultSet.status.trim() == "error")
+ {
+ $("#alertError").text(resultSet.data);
+ $("#alertError").show();
+ }
+ } else if (status == "error")
+ {
+ $("#alertError").text("Error while deleting.");
+ $("#alertError").show();
+ } else
+ {
+ $("#alertError").text("Unknown error while deleting..");
+ $("#alertError").show();
+ }
+}
 
 //CLIENT-MODEL================================================================
 function validateStaffForm()

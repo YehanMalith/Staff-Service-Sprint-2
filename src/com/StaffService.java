@@ -32,9 +32,16 @@ public class StaffService {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Inserted successfully";
+			
+			String newStaff = readStaff();
+			 output = "{\"status\":\"success\", \"data\": \"" +
+					 newStaff + "\"}"; 
+			//output = "Inserted successfully";
+			 
 		} catch (Exception e) {
-			output = "Error while inserting the Staff member.";
+			output = "{\"status\":\"error\", \"data\": "
+					+ "\"Error while inserting the Staff member.\"}"; 
+			//output = "Error while inserting the Staff member.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -48,7 +55,7 @@ public class StaffService {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border=\"1\"><tr><th>NIC</th><th>Staff Name</th><th>Mobile No</th><th>Email</th><th>Gender</th><th>Specialize</th><th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>NIC</th><th>Staff Name</th><th>Mobile No</th><th>Email</th><th>Gender</th><th>Specialize</th><th>Update</th><th>Remove</th></tr>";
 			String query = "select * from staff";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -61,8 +68,9 @@ public class StaffService {
 				String staffEmail = rs.getString("staffEmail");
 				String staffGender = rs.getString("staffGender");
 				String staffSpecialize = rs.getString("staffSpecialize");
+				
 				// Add into the html table
-				output += "<tr><td><input id=\"hidStaffIDUpdate\" name=\"hidStaffIDUpdate\" type=\"hidden\" value=\"" + staffID + "\">" + staffNic + "</td>";
+				output += "<tr><td><input id='hidStaffIDUpdate' name='hidStaffIDUpdate' type='hidden' value='" + staffID + "'>" + staffNic + "</td>";
 				output += "<td>" + staffName + "</td>";
 				output += "<td>" + staffMobileno + "</td>";
 				output += "<td>" + staffEmail + "</td>";
@@ -70,11 +78,14 @@ public class StaffService {
 				output += "<td>" + staffSpecialize + "</td>";
 				
 				// buttons
-				output += "<td><input name=\"btnUpdate\" type=\"button\""
-						+ " value=\"Update\" class=\"btn btn-secondary\"></td>"
-						+ "<td><form method=\"post\" action=\"staff.jsp\">"
+				/*output += "<td><input name=\"btnUpdate\" type=\"button\"" + " value=\"Update\" class=\"btn btn-secondary\"></td>"
+						+ "<td><form method=\"post\" action=\"Staff.jsp\">"
 						+ "<input name=\"btnRemove\" type=\"submit\" value=\"Remove\"" + " class=\"btn btn-danger\">"
 						+ "<input name=\"hidStaffIDDelete\" type=\"hidden\" value=\"" + staffID + "\">" + "</form></td></tr>";
+						*/
+				output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td> "
+						+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger'  data-staffid= '" + staffID + "'>" + "</td></tr>";
+				
 			}
 			con.close();
 			// Complete the html table
@@ -104,12 +115,20 @@ public class StaffService {
 			preparedStmt.setString(5, gender);
 			preparedStmt.setString(6, specialize);
 			preparedStmt.setInt(7, Integer.parseInt(ID));
+			
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Updated successfully";
+			String newStaff = readStaff();
+			 output = "{\"status\":\"success\", \"data\": \"" +
+					 newStaff + "\"}"; 
+			
+			//output = "Updated successfully";
 		} catch (Exception e) {
-			output = "Error while updating the staff member.";
+			output = "{\"status\":\"error\", \"data\":"
+					+ "\"Error while updating the staff.\"}"; 
+			
+			//output = "Error while updating the patient.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -123,16 +142,22 @@ public class StaffService {
 				return "Error while connecting to the database for deleting.";
 			}
 			// create a prepared statement
-			String query = "delete from staff " + "where staffID=?";
+			String query = "delete from staff where staffID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, Integer.parseInt(staffID));
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
-			output = "Deleted successfully";
+			String newStaff = readStaff();
+			 output = "{\"status\":\"success\", \"data\": \"" +
+					 newStaff + "\"}"; 
+			//output = "Deleted successfully";
 		} catch (Exception e) {
-			output = "Error while deleting the staff member.";
+			output = "{\"status\":\"error\", \"data\":"
+					+ "\"Error while deleting the Staff.\"}"; 
+			
+			//output = "Error while deleting the patient.";
 			System.err.println(e.getMessage());
 		}
 		return output;
