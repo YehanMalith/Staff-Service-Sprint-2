@@ -84,7 +84,7 @@ public class StaffService {
 						+ "<input name=\"hidStaffIDDelete\" type=\"hidden\" value=\"" + staffID + "\">" + "</form></td></tr>";
 						*/
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td> "
-						+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger'  data-staffid= '" + staffID + "'>" + "</td></tr>";
+						+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger'  data-itemid= '" + staffID + "'>" + "</td></tr>";
 				
 			}
 			con.close();
@@ -145,7 +145,7 @@ public class StaffService {
 			String query = "delete from staff where staffID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setInt(1, Integer.parseInt(staffID.substring(1, staffID.length()-1)));
+			preparedStmt.setInt(1, Integer.parseInt(staffID));
 			// execute the statement
 			preparedStmt.execute();
 			con.close();

@@ -75,7 +75,7 @@ $(document).on('click', '.btnRemove', function(event)
 		 {
 		 url : "StaffAPI",
 		 type : "DELETE",
-		 data : "staffID=" + $(this).data("staffiD"),
+		 data : "staffID=" + $(this).data("itemid"),
 		 dataType : "text",
 		 complete : function(response, status)
 		 {
